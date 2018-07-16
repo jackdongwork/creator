@@ -45,23 +45,34 @@ class CreateDao extends Creator
         $strFieldsMap = CommonHelper::array2strFormat($fieldsMap);
         $strTypesMap  = CommonHelper::array2strFormat($typesMap,true);
 
+        $partionKey  = '';
+        $partionType = '';
+        $partionNum  = '';
+        if (false) {
+            $partionKey  = '$this->_partionKey  = ' . "'{$columnList[0]['COLUMN_NAME']}';";
+            $partionType = '$this->_partionType = ' . $this->_OdpConfig['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_OdpConfig['PARTION_NUM'].';';
+        }
+
         //拼装数组
         $map = [
             'CLASS_NAME'   => 'Unit',
-            'PARENT_CLASS' => $this->_OdpConfig['PARENT_CLASS'],
+            'PARENT_CLASS' => 'extends ' . $this->_OdpConfig['PARENT_CLASS'],
             'DB_NAME'      => $columnList[0]['TABLE_SCHEMA'],
             'DB'           => $this->_OdpConfig['DB'],
             'LOG_FILE'     => $this->_OdpConfig['LOG_FILE'],
             'DB_TABLE'     => $this->_TableName,
             'FIELDS_MAP'   => $strFieldsMap,
             'TYPES_MAP'    => $strTypesMap,
+            'PARTION_KEY'  => $partionKey,
+            'PARTION_NUM'  => $partionType,
+            'PARTION_TYPE' => $partionNum,
         ];
 
         $tmpl = TemplateHelper::fetchTemplate('dao');
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
         $this->writeToFile();
 
-//        print_r($a);
     }
 
 
@@ -77,13 +88,5 @@ class CreateDao extends Creator
         $sql = "select * from COLUMNS where TABLE_NAME = '{$this->_TableName}'";
         return $columnList = $this->_DBHelper->fetchAll($sql);
     }
-
-
-    
-    
-    
-
-
-
 
 }

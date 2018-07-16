@@ -106,20 +106,9 @@ class Application
 
         $className = "\\".__NAMESPACE__."\\".ucfirst(strtolower($GLOBALS['config']['FRAME']))."\\".ucfirst(self::$_make).ucfirst(self::$_action);
 
-        $params = [
-            //生成目标文件的路径
-            'path' => 'Fz/Name/',
-            //生成目标文件的相对文件名
-            'file_name' => 'we.php',
-            //生成目标文件的模板
-            'template' => '',
-            //项目数据
-            'project' => [],
-            //数据库名称
-            'db_name' => 'tblAccount',
-        ];
 
-        $obj       = new $className($params);
+
+        $obj       = new $className();
         $action    = self::$_make;
         $obj->$action();
         //根据分割符获取className
