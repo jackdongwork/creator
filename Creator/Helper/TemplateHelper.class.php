@@ -5,6 +5,7 @@
  * Date: 2018/7/11
  * Time: 下午10:40
  */
+namespace Creator\Helper;
 class TemplateHelper
 {
 
@@ -18,12 +19,13 @@ class TemplateHelper
     {
         $content = '';
 
-        if (key_exists($template_name, strtolower($GLOBALS['ODP']['TEMPLATES']))) {
-            $file = $GLOBALS['odp']['template'][$template_name];
+        if (key_exists($template_name, $GLOBALS['config']['ODP']['TEMPLATES'])) {
+            $file = $GLOBALS['config']['ODP']['TEMPLATES'][$template_name];
 //            if (preg_match('/^view/', $template_name)) {
 //                $theme = Cache::getInstance()->get('theme') ?? Cache::getInstance()->get('config')['defaults']['theme'];
 //                $file = str_replace('{{THEME}}', $theme, self::$templates[$template_name]);
 //            }
+
 
             $content = file_get_contents(TMPL_PATH . $file);
         }
@@ -55,8 +57,6 @@ class TemplateHelper
         }
         return $_c;
     }
-
-
 
 
 }

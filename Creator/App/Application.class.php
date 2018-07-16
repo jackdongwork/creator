@@ -5,7 +5,7 @@
  * Date: 2017/9/9
  * Time: 11:05
  */
-namespace APP;
+namespace Creator\App;
 /**
  * 框架初始类
  * Class Frame
@@ -48,7 +48,7 @@ class Application
      */
     private static function initConfig()
     {
-        $GLOBALS['config'] = require_once(ROOT_PATH."conf".DS."Conf.php");
+        $GLOBALS['config'] = require_once(CONF_PATH . "Conf.php");
     }
 
 //    private static function initRoute()
@@ -67,7 +67,7 @@ class Application
      */
     private static function initConst()
     {
-        define("TMPL_PATH",ROOT_PATH ."template".DS.strtolower($GLOBALS['FRAME']));//模板路径
+        define("TMPL_PATH",ROOT_PATH ."Creator".DS."Template".DS.strtolower($GLOBALS['config']['FRAME'].DS));//模板路径
     }
 
     /**
@@ -103,13 +103,26 @@ class Application
 
         //分发规则
         //make dao Fz_Dao_Unit
-        $className = "\\APP\\".$GLOBALS['config']['FRAME']."\\".ucfirst(self::$_make).ucfirst(self::$_action);
-        $obj = new $className(self::$_name);
+
+        $className = "\\".__NAMESPACE__."\\".ucfirst(strtolower($GLOBALS['config']['FRAME']))."\\".ucfirst(self::$_make).ucfirst(self::$_action);
+
+        $params = [
+            //生成目标文件的路径
+            'path' => 'Fz/Name/',
+            //生成目标文件的相对文件名
+            'file_name' => 'we.php',
+            //生成目标文件的模板
+            'template' => '',
+            //项目数据
+            'project' => [],
+            //数据库名称
+            'db_name' => 'tblAccount',
+        ];
+
+        $obj       = new $className($params);
+        $action    = self::$_make;
+        $obj->$action();
         //根据分割符获取className
-
-
-
-
 
 
 
