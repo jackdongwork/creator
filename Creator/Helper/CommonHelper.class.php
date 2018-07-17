@@ -26,18 +26,17 @@ class CommonHelper
                 $maxNum = $maxNum < $num ? $num : $maxNum;
             }
         }
+
         foreach ($arr as $arr2) {
             foreach ($arr2 as $key => $item) {
                 $num = strlen($key);
-                $s = str_pad('=>',$maxNum - $num,' ',STR_PAD_LEFT);
-                if ($akey){
-                    $s = $s . " ";
-                }
-                $_s   = '\''.$key .'\''. $s . '\''.$item .'\','.PHP_EOL;
-//                print_r($)
-                $str .= str_pad($_s,$maxNum + 12,"-",STR_PAD_LEFT);
+                $s   = str_pad('=>',$maxNum - $num,' ',STR_PAD_LEFT)." ";
+                $_s  = '\''.$key .'\''. $s . '\''.$item .'\','.PHP_EOL;
+                if ($akey) $_s = '\''.$key .'\''. $s .$item .','.PHP_EOL;
+                $n = strlen($_s) + 4;
+                $str .= str_pad($_s,$maxNum + $n,' ',STR_PAD_LEFT);
             }
         }
-        return $str;
+        return rtrim($str);
     }
 }
