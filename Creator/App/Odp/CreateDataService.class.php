@@ -6,9 +6,10 @@
  * Time: 下午11:41
  */
 namespace Creator\App\Odp;
-class CreateModel
-{
+use Creator\App\Creator;
 
+class CreateDataService extends Creator
+{
 
 }
 

@@ -18,7 +18,24 @@ class Application
     static $_make;
     static $_action;
     static $_name;
+    static $_config;
 
+    static $params = [
+        //基础参数
+        'base_name' => '',
+        //基础参数
+        'base_config' => '',
+        //生成目标文件的路径
+        'path' => '',
+        //生成目标文件的相对文件名
+        'file_name' => '',
+        //生成目标文件的模板
+//        'template' => '',
+        //项目数据
+//        'project' => [],
+        //数据库名称
+        'db_name' => '',
+    ];
 
     /**
      * 初始化方法
@@ -26,22 +43,15 @@ class Application
     public static function run($argv)
     {
         self::$_argv = $argv;
-        self::initParam();
         self::initConfig();
         self::initConst();
+        self::initParam();
         self::initAutoLoad();
+
         self::initDispatch();
     }
 
-    /**
-     *
-     */
-    private static function initParam()
-    {
-        self::$_make    = self::$_argv[1];
-        self::$_action  = self::$_argv[2];
-        self::$_name    = self::$_argv[3];
-    }
+
 
     /**
      *
@@ -71,6 +81,32 @@ class Application
     }
 
     /**
+     *
+     */
+    private static function initParam()
+    {
+        self::$_make    = self::$_argv[1];
+        self::$_action  = self::$_argv[2];
+        self::$_name    = self::$_argv[3];
+        self::$_config  = self::$_argv[4];
+
+        $configName     = $GLOBALS['config']['ODP']['DAO']['DOCUMENT_PATH'] . self::$_name;
+
+        //初始化参数
+        self::$params['base_name'] = self::$_name;
+        self::$params['base_config'] = self::$_config;
+        $DS = $GLOBALS['config']['ODP']['DS'];
+        $name = trim(strrchr(self::$_name, $DS),$DS);
+        self::$params['path'] = str_replace($DS, DS,substr($configName,0,strrpos($configName, $DS)));
+        self::$params['file_name'] =  $name . '.php';
+        if (self::$_action == 'dao') {
+            self::$params['db_name'] = 'tbl' . $name;
+        }
+    }
+
+
+
+    /**
      * 类的自动加载
      */
     private static function initAutoLoad()
@@ -93,32 +129,13 @@ class Application
      */
     private static function initDispatch()
     {
-//        //构建控制器类名
-//        $className = "\\".PLATFORM."\\"."Controller"."\\".CONTROLLER."Controller";
-//        //创建控制器类的对象
-//        $controllerObj = new $className();
-//        //调用控制器对象的方法
-//        $action = ACTION;
-//        $controllerObj->$action();
-
         //分发规则
         //make dao Fz_Dao_Unit
-
         $className = "\\".__NAMESPACE__."\\".ucfirst(strtolower($GLOBALS['config']['FRAME']))."\\".ucfirst(self::$_make).ucfirst(self::$_action);
-
-
-
-        $obj       = new $className();
+        $obj       = new $className(self::$params);
         $action    = self::$_make;
         $obj->$action();
         //根据分割符获取className
-
-
-
     }
-
-
-
-
 
 }

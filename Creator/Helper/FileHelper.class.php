@@ -15,7 +15,6 @@ class FileHelper
     {
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
-            echo "INFO: creating directory: {$path} ..." . PHP_EOL;
         }
     }
 

@@ -8,8 +8,6 @@
 namespace Creator\Helper;
 class TemplateHelper
 {
-
-
     /**
      * 获取模板文件中的内容
      * @param string $template_name
@@ -18,18 +16,10 @@ class TemplateHelper
     public static function fetchTemplate($template_name)
     {
         $content = '';
-
         if (key_exists($template_name, $GLOBALS['config']['ODP']['TEMPLATES'])) {
             $file = $GLOBALS['config']['ODP']['TEMPLATES'][$template_name];
-//            if (preg_match('/^view/', $template_name)) {
-//                $theme = Cache::getInstance()->get('theme') ?? Cache::getInstance()->get('config')['defaults']['theme'];
-//                $file = str_replace('{{THEME}}', $theme, self::$templates[$template_name]);
-//            }
-
-
             $content = file_get_contents(TMPL_PATH . $file);
         }
-
         return $content;
     }
 
@@ -57,6 +47,4 @@ class TemplateHelper
         }
         return $_c;
     }
-
-
 }

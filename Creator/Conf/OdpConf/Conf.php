@@ -11,11 +11,10 @@ return array(
         'dao'  => 'dao.tmpl',
     ],
     //odp文件路径分割符
-    'ODP_DS' => '_',
-
-
+    'DS' => '_',
     //dao层相关配置
     'DAO' => [
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
         'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
         'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
         'LOG_FILE'     => 'Hkzb_Util_FuDao::DBLOG_FUDAO',    //日志文件

@@ -17,7 +17,7 @@ $conf = array(
         'DB_HOST'    => '127.0.0.1',       //服务器地址
         'DB_PORT'    => '3306',            //端口
         'DB_USER'    => 'root',            //用户名
-        'DB_PWD'     => '123456root',            //密码
+        'DB_PWD'     => 'root',            //密码
         'DB_NAME'    => DB_NAME,           //数据库名称
         'DB_CHARSET' => 'utf8',            //数据库编码
     ],

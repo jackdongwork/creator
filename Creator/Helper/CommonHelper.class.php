@@ -33,7 +33,7 @@ class CommonHelper
                 $s   = str_pad('=>',$maxNum - $num,' ',STR_PAD_LEFT)." ";
                 $_s  = '\''.$key .'\''. $s . '\''.$item .'\','.PHP_EOL;
                 if ($akey) $_s = '\''.$key .'\''. $s .$item .','.PHP_EOL;
-                $n = strlen($_s) + 4;
+                $n = strlen($_s);
                 $str .= str_pad($_s,$maxNum + $n,' ',STR_PAD_LEFT);
             }
         }

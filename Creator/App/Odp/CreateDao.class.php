@@ -48,15 +48,16 @@ class CreateDao extends Creator
         $partionKey  = '';
         $partionType = '';
         $partionNum  = '';
-        if (false) {
-            $partionKey  = '$this->_partionKey  = ' . "'{$columnList[0]['COLUMN_NAME']}';";
+        $columnName  = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
+        if ($this->params['base_config'] == true) {
+            $partionKey  = '$this->_partionKey  = ' . "'{$columnName}';";
             $partionType = '$this->_partionType = ' . $this->_OdpConfig['PARTION_TYPE'].';';
             $partionNum  = '$this->_partionNum  = ' . $this->_OdpConfig['PARTION_NUM'].';';
         }
 
         //拼装数组
         $map = [
-            'CLASS_NAME'   => 'Unit',
+            'CLASS_NAME'   => $this->params['base_name'],
             'PARENT_CLASS' => 'extends ' . $this->_OdpConfig['PARENT_CLASS'],
             'DB_NAME'      => $columnList[0]['TABLE_SCHEMA'],
             'DB'           => $this->_OdpConfig['DB'],
