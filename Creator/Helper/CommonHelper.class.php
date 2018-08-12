@@ -12,13 +12,15 @@ class CommonHelper
      * 下划线命名转驼峰式命名
      * @param $str
      * @param bool $ucfirst true 大驼峰 false 小驼峰
+     * @param bool $underline true 下划线保留 false 下划线舍弃
      * @return string
      */
-    public static function convertUnderline($str,$ucfirst = true)
+    public static function convertUnderline($str,$ucfirst = true,$underline = false)
     {
         while(($pos = strpos($str , '_'))!==false) {
-            $str = substr($str , 0 , $pos).ucfirst(substr($str , $pos+1));
+            $str = $underline ? substr($str , 0 , $pos) . '-' . ucfirst(substr($str , $pos+1)) : substr($str , 0 , $pos) . ucfirst(substr($str , $pos+1));
         }
+        $str = str_replace('-','_',$str);
         return $ucfirst ? ucfirst($str) : $str;
     }
 
@@ -51,7 +53,5 @@ class CommonHelper
         }
         return rtrim($str);
     }
-
-
 
 }

@@ -35,7 +35,6 @@ class CreateDao extends CreateBase
         $this->setTableName($this->params['db_name']);
         //获取数据
         $columnList = $this->getColumnList();
-
         //生成字段 & 字段类型
         $fieldsMap  = array();
         $typesMap   = array();
@@ -45,7 +44,8 @@ class CreateDao extends CreateBase
             ];
 
             $typesMap[] = [
-                CommonHelper::convertUnderline($column['COLUMN_NAME'],false) => $this->_Config['TYPES_MAP'][$column['DATA_TYPE']],
+                CommonHelper::convertUnderline($column['COLUMN_NAME'],false) =>
+                    strpos($column['COLUMN_COMMENT'],$this->_Config['TYPE_JSON_FLAG']) ? $this->_Config['TYPE_JSON'] : $this->_Config['TYPES_MAP'][$column['DATA_TYPE']],
             ];
         }
 
@@ -57,9 +57,9 @@ class CreateDao extends CreateBase
         $partionKey  = '';
         $partionType = '';
         $partionNum  = '';
-        $columnName  = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
-        if ($this->params['base_config'] == true) {
-            $partionKey  = '$this->_partionKey  = ' . "'{$columnName}';";
+        $firstColumn = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
+        if (in_array($this->_Config['BASE_CONFIG']['partion'],$this->params['base_config'])) {
+            $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
             $partionType = '$this->_partionType = ' . $this->_Config['PARTION_TYPE'].';';
             $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION_NUM'].';';
         }
@@ -67,8 +67,8 @@ class CreateDao extends CreateBase
         //拼装数组
         $map = [
             'CLASS_NAME'   => $this->params['base_name'],
-            'PARENT_CLASS' => isset($this->_Config['PARENT_CLASS']) ? 'extends ' . $this->_Config['PARENT_CLASS'] : '',
-            'DB_NAME'      => $columnList[0]['TABLE_SCHEMA'],
+            'PARENT_CLASS' => !empty($this->_Config['PARENT_CLASS']) ? 'extends ' . $this->_Config['PARENT_CLASS'] : '',
+            'DB_NAME'      => $this->_Config['DB_NAME'],
             'DB'           => $this->_Config['DB'],
             'LOG_FILE'     => $this->_Config['LOG_FILE'],
             'DB_TABLE'     => $this->_TableName,
@@ -78,6 +78,9 @@ class CreateDao extends CreateBase
             'PARTION_NUM'  => $partionType,
             'PARTION_TYPE' => $partionNum,
         ];
+
+        $map = array_merge($map,$this->note);
+
         //获取模板
         $tmpl = TemplateHelper::fetchTemplate('dao');
         //填充模板

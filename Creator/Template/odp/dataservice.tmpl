@@ -1,14 +1,19 @@
 <?php
+/**
+ * file  : {{FILE}}
+ * author: {{AUTHOR}}
+ * date  : {{DATE}}
+ * brief :
+ */
 class {{CLASS_NAME}} {{PARENT_CLASS}} {
 
-    private $_example;
+    private $_objExample;
 
     const ALL_FIELDS = '{{ALL_FIELDS}}';
 
 	public function __construct(){
-
+        $this->_objDaoExample = new Fz_Dao_Example();
 	}
-
 
     /**
      * 根据多条件获取数目
@@ -19,7 +24,7 @@ class {{CLASS_NAME}} {{PARENT_CLASS}} {
         if (empty($arrCond)) {
             return 0;
         }
-        $ret = $this->_objDaoActivity->getCntByConds($arrCond);
+        $ret = $this->_objDaoExample->getCntByConds($arrCond);
         return $ret;
     }
 
@@ -46,7 +51,7 @@ class {{CLASS_NAME}} {{PARENT_CLASS}} {
             "limit $offset, $limit",
         );
 
-        $list = $this->_example->getListByConds($arrCond, $arrFields, NULL, $arrAppends);
+        $list = $this->_objDaoExample->getListByConds($arrCond, $arrFields, NULL, $arrAppends);
 
         return $list;
     }

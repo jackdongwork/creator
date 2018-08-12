@@ -45,7 +45,7 @@ trait TableCreate
     public function getColumnList()
     {
         //获取数据库
-        $sql = "select * from COLUMNS where TABLE_NAME = '{$this->_TableName}'";
+        $sql = "select * from COLUMNS where TABLE_NAME = '{$this->_TableName}' order by ORDINAL_POSITION";
         return $this->_DBHelper->fetchAll($sql);
     }
 }

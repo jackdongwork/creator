@@ -39,10 +39,17 @@ abstract class CreateBase
         'db_name' => '',
     ];
 
+    protected $note = [
+        'FILE' => '',
+        'AUTHOR' => '',
+        'DATE'   => '',
+    ];
+
 
     public function __construct($params)
     {
         $this->setParams($params);
+        $this->setNote();
     }
 
 
@@ -55,6 +62,16 @@ abstract class CreateBase
         $this->params = $params;
     }
 
+
+    /**
+     * 设置文件头注释
+     */
+    public function setNote()
+    {
+        $this->note['FILE'] = $this->params['file_name'];
+        $this->note['AUTHOR'] = $GLOBALS['config']['NOTE']['AUTHOR'];
+        $this->note['DATE'] = date('Y/m/d');
+    }
 
     /**
      * 创建

@@ -10,13 +10,18 @@ return array(
     'TEMPLATES' => [
         'dao'           => 'dao.tmpl',
         'dataservice'   => 'dataservice.tmpl',
+        'pageservice'   => 'pageservice.tmpl',
     ],
-    //odp文件路径分割符
+    //odp文件路径分割
     'DS' => '_',
     //dao层相关配置
     'DAO' => [
+        'BASE_CONFIG'  => [
+            'partion'  => '-p', //分表
+        ],
         'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
         'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
+        'DB_NAME'      => 'flipped/zyb_flipped', //DB_NAME
         'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
         'LOG_FILE'     => 'Hkzb_Util_FuDao::DBLOG_FUDAO',    //日志文件
         'PARTION_NUM'  => '20',
@@ -31,16 +36,23 @@ return array(
             'longblob'   => 'Hk_Service_Db::TYPE_INT',
             'mediumblob' => 'Hk_Service_Db::TYPE_INT',
             'smallint'   => 'Hk_Service_Db::TYPE_INT',
-            'text'       => 'Hk_Service_Db::TYPE_JSON',
+            'text'       => 'Hk_Service_Db::TYPE_STR',
             'time'       => 'Hk_Service_Db::TYPE_STR',
             'timestamp'  => 'Hk_Service_Db::TYPE_STR',
             'tinyint'    => 'Hk_Service_Db::TYPE_INT',
             'varchar'    => 'Hk_Service_Db::TYPE_STR',
-        ]
+        ],
+        'TYPE_JSON'      => 'Hk_Service_Db::TYPE_JSON',
+        'TYPE_JSON_FLAG' => 'json',
     ],
     //dataservice层相关配置
     'DATASERVICE' => [
         'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
-        'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
-    ]
+        'PARENT_CLASS' => '',   //父类
+    ],
+    //pageservice层相关配置
+    'PAGESERVICE' => [
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'PARENT_CLASS' => '',   //父类
+    ],
 );

@@ -7,75 +7,34 @@
  */
 namespace Creator\App\Odp;
 
+use Creator\App\CreateBase;
 use Creator\App\Creator;
-use Creator\Helper\CommonHelper;
-use Creator\Helper\PDOWrapper;
+use Creator\Helper\FileHelper;
 use Creator\Helper\TemplateHelper;
 
-class CreatePageService extends Creator
+class CreatePageService extends CreateBase
 {
-    private $_DBHelper;
-    private $_TableName;
-    private $_OdpConfig;
-
     public function __construct($params)
     {
         parent::__construct($params);
-        $this->_OdpConfig = $GLOBALS['config']['ODP']['DATASERVICE'];
-        $this->_DBHelper  = new PDOWrapper();
+        $this->_Config = $GLOBALS['config']['ODP']['DATASERVICE'];
 
     }
 
     public function create()
     {
-        $this->setTableName();
-
-        $columnList = $this->getColumnList();
-
-        $allFields  = array();
-        foreach ($columnList as $column) {
-            $allFields[] = CommonHelper::convertUnderline($column['COLUMN_NAME'],false);
-        }
-        $allFields = implode(',',$allFields);
-//
-//        $strFieldsMap = CommonHelper::array2strFormat($fieldsMap);
-//        $strTypesMap  = CommonHelper::array2strFormat($typesMap,true);
-//
-//        $partionKey  = '';
-//        $partionType = '';
-//        $partionNum  = '';
-//        $columnName  = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
-//        if ($this->params['base_config'] == true) {
-//            $partionKey  = '$this->_partionKey  = ' . "'{$columnName}';";
-//            $partionType = '$this->_partionType = ' . $this->_OdpConfig['PARTION_TYPE'].';';
-//            $partionNum  = '$this->_partionNum  = ' . $this->_OdpConfig['PARTION_NUM'].';';
-//        }
-//
-//        //拼装数组
+        //拼装数组
         $map = [
             'CLASS_NAME'   => $this->params['base_name'],
-            'PARENT_CLASS' => isset($this->_OdpConfig['PARENT_CLASS']) ? 'extends ' . $this->_OdpConfig['PARENT_CLASS'] : '',
-            'ALL_FIELDS'   => $allFields,
+            'PARENT_CLASS' => !empty($this->_Config['PARENT_CLASS']) ? 'extends ' . $this->_Config['PARENT_CLASS'] : '',
         ];
-//
-        $tmpl = TemplateHelper::fetchTemplate('dataservice');
+
+        $map = array_merge($map,$this->note);
+
+        $tmpl = TemplateHelper::fetchTemplate('pageservice');
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
-        $this->writeToFile();
+        FileHelper::writeToFile($this->content,$this->params['path'],$this->params['file_name']);
 
-    }
-
-
-
-    public function setTableName()
-    {
-        $this->_TableName = $this->params['db_name'];
-    }
-
-    public function getColumnList()
-    {
-        //获取数据库
-        $sql = "select * from COLUMNS where TABLE_NAME = '{$this->_TableName}'";
-        return $columnList = $this->_DBHelper->fetchAll($sql);
     }
 
 }

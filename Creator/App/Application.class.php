@@ -6,6 +6,9 @@
  * Time: 11:05
  */
 namespace Creator\App;
+
+use Creator\Helper\CommonHelper;
+
 /**
  * 框架初始类
  * Class Frame
@@ -93,8 +96,8 @@ class Application
     {
         self::initConfig();
         self::initConst();
-        self::initParam($argv);
         self::initAutoLoad();
+        self::initParam($argv);
         self::initDispatch();
     }
 
@@ -115,6 +118,23 @@ class Application
     }
 
     /**
+     * 类的自动加载
+     */
+    private static function initAutoLoad()
+    {
+        spl_autoload_register(function ($className)
+        {
+            //将空间中的类名,转成真实的类文件路径
+            //空间中的类名 Creator\App\Odp\CreateDao
+            //真是的类文件 Creator\App\Odp\CreateDao.class.php
+            $filename = ROOT_PATH.str_replace("\\",DS,$className).".class.php";
+            //如果类文件存在,则包含
+            if (file_exists($filename)) require_once($filename);
+        });
+    }
+
+
+    /**
      * 初始化参数
      * @param $argv
      */
@@ -132,13 +152,13 @@ class Application
         self::$_make    = $argv[1]; //create
         self::$_action  = $argv[2];
         self::$_name    = $argv[3];
-        self::$_config  = isset($argv[4]) ? $argv[4] : '';
+        self::$_config  = array_slice($argv,4);
 
         //配置名称
         $configName     = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])][strtoupper(self::$_action)]['DOCUMENT_PATH'] . self::$_name;
 
         //初始化参数
-        self::$params['base_name']   = self::$_name;
+        self::$params['base_name']   = CommonHelper::convertUnderline(self::$_name,true,true);
         self::$params['base_config'] = self::$_config;
 
         $DS = $GLOBALS['config']['ODP']['DS'];
@@ -154,21 +174,7 @@ class Application
 
     }
 
-    /**
-     * 类的自动加载
-     */
-    private static function initAutoLoad()
-    {
-        spl_autoload_register(function ($className)
-        {
-            //将空间中的类名,转成真实的类文件路径
-            //空间中的类名 Creator\App\Odp\CreateDao
-            //真是的类文件 Creator\App\Odp\CreateDao.class.php
-            $filename = ROOT_PATH.str_replace("\\",DS,$className).".class.php";
-            //如果类文件存在,则包含
-            if (file_exists($filename)) require_once($filename);
-        });
-    }
+
 
     /**
      * 请求分发
