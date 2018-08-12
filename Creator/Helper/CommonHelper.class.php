@@ -8,7 +8,13 @@
 namespace Creator\Helper;
 class CommonHelper
 {
-    public static function convertUnderline ( $str , $ucfirst = true)
+    /**
+     * 下划线命名转驼峰式命名
+     * @param $str
+     * @param bool $ucfirst true 大驼峰 false 小驼峰
+     * @return string
+     */
+    public static function convertUnderline($str,$ucfirst = true)
     {
         while(($pos = strpos($str , '_'))!==false) {
             $str = substr($str , 0 , $pos).ucfirst(substr($str , $pos+1));
@@ -16,6 +22,12 @@ class CommonHelper
         return $ucfirst ? ucfirst($str) : $str;
     }
 
+    /**
+     * 二维数组转换为换行字符串, = 自动对齐
+     * @param $arr
+     * @param bool $akey
+     * @return string
+     */
     public static function array2strFormat($arr,$akey = false)
     {
         $str = '';
@@ -29,14 +41,17 @@ class CommonHelper
 
         foreach ($arr as $arr2) {
             foreach ($arr2 as $key => $item) {
-                $num = strlen($key);
-                $s   = str_pad('=>',$maxNum - $num,' ',STR_PAD_LEFT)." ";
-                $_s  = '\''.$key .'\''. $s . '\''.$item .'\','.PHP_EOL;
+                $num  = strlen($key);
+                $s    = str_pad('=>',$maxNum - $num,' ',STR_PAD_LEFT)." ";
+                $_s   = '\''.$key .'\''. $s . '\''.$item .'\','.PHP_EOL;
                 if ($akey) $_s = '\''.$key .'\''. $s .$item .','.PHP_EOL;
-                $n = strlen($_s);
+                $n    = strlen($_s);
                 $str .= str_pad($_s,$maxNum + $n,' ',STR_PAD_LEFT);
             }
         }
         return rtrim($str);
     }
+
+
+
 }

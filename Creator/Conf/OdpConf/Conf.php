@@ -8,7 +8,8 @@
 return array(
     //odp的模板类型
     'TEMPLATES' => [
-        'dao'  => 'dao.tmpl',
+        'dao'           => 'dao.tmpl',
+        'dataservice'   => 'dataservice.tmpl',
     ],
     //odp文件路径分割符
     'DS' => '_',
@@ -36,5 +37,10 @@ return array(
             'tinyint'    => 'Hk_Service_Db::TYPE_INT',
             'varchar'    => 'Hk_Service_Db::TYPE_STR',
         ]
+    ],
+    //dataservice层相关配置
+    'DATASERVICE' => [
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
     ]
 );

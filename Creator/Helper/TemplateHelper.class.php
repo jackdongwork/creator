@@ -15,10 +15,12 @@ class TemplateHelper
      */
     public static function fetchTemplate($template_name)
     {
-        $content = '';
-        if (key_exists($template_name, $GLOBALS['config']['ODP']['TEMPLATES'])) {
+        if (self::hasTemplate($template_name)) {
             $file = $GLOBALS['config']['ODP']['TEMPLATES'][$template_name];
             $content = file_get_contents(TMPL_PATH . $file);
+        }else{
+            echo 'TEMPLATE NOT EXISTS'.PHP_EOL;
+            exit();
         }
         return $content;
     }
@@ -30,7 +32,7 @@ class TemplateHelper
      */
     public static function hasTemplate($template_name)
     {
-        return key_exists($template_name, strtolower($GLOBALS['odp']['template']));
+        return key_exists($template_name, $GLOBALS['config'][FRAME]['TEMPLATES']);
     }
 
     /**
@@ -48,3 +50,12 @@ class TemplateHelper
         return $_c;
     }
 }
+
+
+
+
+
+
+
+
+

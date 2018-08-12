@@ -12,7 +12,7 @@ use Creator\Helper\CommonHelper;
 use Creator\Helper\PDOWrapper;
 use Creator\Helper\TemplateHelper;
 
-class CreateDataService extends Creator
+class CreatePageService extends Creator
 {
     private $_DBHelper;
     private $_TableName;

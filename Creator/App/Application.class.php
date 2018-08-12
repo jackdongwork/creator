@@ -9,32 +9,81 @@ namespace Creator\App;
 /**
  * 框架初始类
  * Class Frame
- * @package Frame
  */
 class Application
 {
-
-    static $_argv;
+    /**
+     * 执行动作
+     * @var
+     */
     static $_make;
+
+    /**
+     * 动作
+     * @var
+     */
     static $_action;
+
+    /**
+     * 名称
+     * @var
+     */
     static $_name;
+
+    /**
+     * 配置
+     * @var
+     */
     static $_config;
 
+    /**
+     * 参数
+     * @var array
+     */
     static $params = [
-        //基础参数
+        //基础文件名
         'base_name' => '',
-        //基础参数
+        //基础配置
         'base_config' => '',
         //生成目标文件的路径
         'path' => '',
         //生成目标文件的相对文件名
         'file_name' => '',
-        //生成目标文件的模板
-//        'template' => '',
-        //项目数据
-//        'project' => [],
         //数据库名称
         'db_name' => '',
+    ];
+
+    /**
+     * 参数验证
+     * @var array
+     */
+    static $checkParams = [
+        1 => [
+            'create'
+        ],
+        2 => [
+            'dao',
+            'dataservice',
+            'pageservice',
+            'ds',
+            'ps',
+        ],
+    ];
+
+    /**
+     * 参数转换
+     * @var array
+     */
+    static $paramsMap = [
+        'ds' => 'dataservice',
+        'ps' => 'pageservice',
+    ];
+
+
+    static $useTableAction = [
+        'dao',
+        'ds',
+        'dataservice',
     ];
 
     /**
@@ -42,69 +91,68 @@ class Application
      */
     public static function run($argv)
     {
-        self::$_argv = $argv;
         self::initConfig();
         self::initConst();
-        self::initParam();
+        self::initParam($argv);
         self::initAutoLoad();
-
         self::initDispatch();
     }
 
-
-
     /**
-     *
+     * 初始化配置
      */
     private static function initConfig()
     {
         $GLOBALS['config'] = require_once(CONF_PATH . "Conf.php");
     }
 
-//    private static function initRoute()
-//    {
-//        $p = $GLOBALS['config']['DEFAULT_PLATFORM'];//平台参数//直接从配置文件读取,入口文件已经确定了平台
-//        $c = isset($_GET['c'])?$_GET['c']:$GLOBALS['config']['DEFAULT_CONTROLLER'];//控制器参数
-//        $a = isset($_GET['a'])?$_GET['a']:$GLOBALS['config']['DEFAULT_ACTION'];//动作参数
-//
-//        define("CONTROLLER",$c);//控制器名称
-//        define("ACTION",$a);  //动作名称
-//        define("PLATFORM",$p);//平台名称
-//    }
-
     /**
-     * 目录常量设置
+     * 初始化部分常量
      */
     private static function initConst()
     {
-        define("TMPL_PATH",ROOT_PATH ."Creator".DS."Template".DS.strtolower($GLOBALS['config']['FRAME'].DS));//模板路径
+        define("TMPL_PATH",ROOT_PATH ."Creator".DS."Template".DS.strtolower($GLOBALS['config']['FRAME'] . DS));//模板路径
     }
 
     /**
-     *
+     * 初始化参数
+     * @param $argv
      */
-    private static function initParam()
+    private static function initParam($argv)
     {
-        self::$_make    = self::$_argv[1];
-        self::$_action  = self::$_argv[2];
-        self::$_name    = self::$_argv[3];
-        self::$_config  = self::$_argv[4];
+        //校验参数
+        if (!in_array($argv[1],self::$checkParams[1]) || !in_array($argv[2],self::$checkParams[2]) || empty($argv[3])) {
+            echo 'PARAM ERROR!'.PHP_EOL;
+            exit();
+        }
 
-        $configName     = $GLOBALS['config']['ODP']['DAO']['DOCUMENT_PATH'] . self::$_name;
+        //参数转换 ds ps
+        $argv[2] = array_key_exists($argv[2],self::$paramsMap) ? self::$paramsMap[$argv[2]] : $argv[2];
+
+        self::$_make    = $argv[1]; //create
+        self::$_action  = $argv[2];
+        self::$_name    = $argv[3];
+        self::$_config  = isset($argv[4]) ? $argv[4] : '';
+
+        //配置名称
+        $configName     = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])][strtoupper(self::$_action)]['DOCUMENT_PATH'] . self::$_name;
 
         //初始化参数
-        self::$params['base_name'] = self::$_name;
+        self::$params['base_name']   = self::$_name;
         self::$params['base_config'] = self::$_config;
+
         $DS = $GLOBALS['config']['ODP']['DS'];
-        $name = trim(strrchr(self::$_name, $DS),$DS);
-        self::$params['path'] = str_replace($DS, DS,substr($configName,0,strrpos($configName, $DS)));
-        self::$params['file_name'] =  $name . '.php';
-        if (self::$_action == 'dao') {
-            self::$params['db_name'] = 'tbl' . $name;
+        $name = !strrchr(self::$_name, $DS) ? self::$_name : trim(strrchr(self::$_name, $DS),$DS);
+
+        self::$params['path'] = !strrpos($configName, $DS) ? $configName : str_replace($DS, DS,substr($configName,0,strrpos($configName, $DS)));
+        self::$params['file_name'] =  ucfirst($name) . '.php';
+
+        //用到数据库的
+        if (in_array(self::$_action,self::$useTableAction)) {
+            self::$params['db_name'] = 'tbl' . ucfirst($name);
         }
+
     }
-
-
 
     /**
      * 类的自动加载
@@ -114,8 +162,8 @@ class Application
         spl_autoload_register(function ($className)
         {
             //将空间中的类名,转成真实的类文件路径
-            //空间中的类名 \Home\Controller\StudentController
-            //真是的类文件 ./Home/Controller/StudentController
+            //空间中的类名 Creator\App\Odp\CreateDao
+            //真是的类文件 Creator\App\Odp\CreateDao.class.php
             $filename = ROOT_PATH.str_replace("\\",DS,$className).".class.php";
             //如果类文件存在,则包含
             if (file_exists($filename)) require_once($filename);
@@ -135,7 +183,6 @@ class Application
         $obj       = new $className(self::$params);
         $action    = self::$_make;
         $obj->$action();
-        //根据分割符获取className
     }
 
 }

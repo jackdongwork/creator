@@ -7,61 +7,70 @@
  */
 namespace Creator\App\Odp;
 
+use Creator\App\CreateBase;
 use Creator\App\Creator;
+use Creator\App\TableCreate;
 use Creator\Helper\CommonHelper;
-use Creator\Helper\PDOWrapper;
+use Creator\Helper\FileHelper;
 use Creator\Helper\TemplateHelper;
 
-class CreateDao extends Creator
+class CreateDao extends CreateBase
 {
-    private $_DBHelper;
-    private $_TableName;
-    private $_OdpConfig;
+    use TableCreate;
 
     public function __construct($params)
     {
         parent::__construct($params);
-        $this->_OdpConfig = $GLOBALS['config']['ODP']['DAO'];
-        $this->_DBHelper  = new PDOWrapper();
-
+        $this->_Config = $GLOBALS['config']['ODP']['DAO'];
     }
 
+    /**
+     * 创建
+     */
     public function create()
     {
-        $this->setTableName();
+        //初始化
+        $this->DBConstruct();
+        //设置表名
+        $this->setTableName($this->params['db_name']);
+        //获取数据
         $columnList = $this->getColumnList();
+
+        //生成字段 & 字段类型
         $fieldsMap  = array();
-        $typesMap = array();
+        $typesMap   = array();
         foreach ($columnList as $column) {
             $fieldsMap[] = [
                 CommonHelper::convertUnderline($column['COLUMN_NAME'],false) => $column['COLUMN_NAME'] ,
             ];
 
             $typesMap[] = [
-                CommonHelper::convertUnderline($column['COLUMN_NAME'],false) => $this->_OdpConfig['TYPES_MAP'][$column['DATA_TYPE']],
+                CommonHelper::convertUnderline($column['COLUMN_NAME'],false) => $this->_Config['TYPES_MAP'][$column['DATA_TYPE']],
             ];
         }
 
+        //字段格式化
         $strFieldsMap = CommonHelper::array2strFormat($fieldsMap);
         $strTypesMap  = CommonHelper::array2strFormat($typesMap,true);
 
+        //分表相关
         $partionKey  = '';
         $partionType = '';
         $partionNum  = '';
         $columnName  = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
         if ($this->params['base_config'] == true) {
             $partionKey  = '$this->_partionKey  = ' . "'{$columnName}';";
-            $partionType = '$this->_partionType = ' . $this->_OdpConfig['PARTION_TYPE'].';';
-            $partionNum  = '$this->_partionNum  = ' . $this->_OdpConfig['PARTION_NUM'].';';
+            $partionType = '$this->_partionType = ' . $this->_Config['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION_NUM'].';';
         }
 
         //拼装数组
         $map = [
             'CLASS_NAME'   => $this->params['base_name'],
-            'PARENT_CLASS' => 'extends ' . $this->_OdpConfig['PARENT_CLASS'],
+            'PARENT_CLASS' => isset($this->_Config['PARENT_CLASS']) ? 'extends ' . $this->_Config['PARENT_CLASS'] : '',
             'DB_NAME'      => $columnList[0]['TABLE_SCHEMA'],
-            'DB'           => $this->_OdpConfig['DB'],
-            'LOG_FILE'     => $this->_OdpConfig['LOG_FILE'],
+            'DB'           => $this->_Config['DB'],
+            'LOG_FILE'     => $this->_Config['LOG_FILE'],
             'DB_TABLE'     => $this->_TableName,
             'FIELDS_MAP'   => $strFieldsMap,
             'TYPES_MAP'    => $strTypesMap,
@@ -69,25 +78,11 @@ class CreateDao extends Creator
             'PARTION_NUM'  => $partionType,
             'PARTION_TYPE' => $partionNum,
         ];
-
+        //获取模板
         $tmpl = TemplateHelper::fetchTemplate('dao');
+        //填充模板
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
-        $this->writeToFile();
-
-    }
-
-
-
-    public function setTableName()
-    {
-        $this->_TableName = $this->params['db_name'];
-    }
-
-    public function getColumnList()
-    {
-        //获取数据库
-        $sql = "select * from COLUMNS where TABLE_NAME = '{$this->_TableName}'";
-        return $columnList = $this->_DBHelper->fetchAll($sql);
+        FileHelper::writeToFile($this->content,$this->params['path'],$this->params['file_name']);
     }
 
 }
