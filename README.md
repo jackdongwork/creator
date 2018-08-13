@@ -1,9 +1,7 @@
 # creator
 
 #### 项目介绍
-{**以下是码云平台说明，您可以替换为您的项目简介**
-码云是开源中国推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+creator是一款为百度内部php框架odp的脚手架工具，主要用于生成dao层，dataService层，pageService层（其他功能待完善），避免重复性劳动和提高工作效率
 
 #### 软件架构
 软件架构说明
@@ -11,9 +9,104 @@
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 将creator文件夹放置于odp项目的根目录下
+2. 配置连接数据库参数,根据注释设置数据库连接参数,注意不要随意更改DB_NAME
+
+```
+vim ./creator/Creator/Conf/Conf.php
+$conf = array(
+    //pdo数据库配置文件
+    'PDO' => [
+        'DB_TYPE'    => 'mysql',           //数据库类型
+        'DB_HOST'    => '127.0.0.1',       //服务器地址
+        'DB_PORT'    => '3306',            //端口
+        'DB_USER'    => 'root',            //用户名
+        'DB_PWD'     => '123456root',      //密码
+        'DB_NAME'    => DB_NAME,           //数据库名称
+        'DB_CHARSET' => 'utf8',            //数据库编码
+    ],
+
+    //基础配置
+    'FRAME' => FRAME,              //框架
+
+    //文件注释
+    'NOTE' => [
+        'AUTHOR' => 'chenzhiwen',  //文件头作者
+    ],
+);
+```
+
+    
+
+3. 修改适合你的odp参数
+
+ **可修改的部分（以dao为例）：** 
+1. 分表操作参数 -p 
+2. 生成文件路径
+3. 默认继承的父类
+4. 默认的DB_NAME
+5. 默认的DB
+6. 默认的日志文件存储
+7. 默认的取模分表分母数
+8. 默认的分表类型
+9. 默认的JSON类型CLOUMN_COMMENT标识符
+
+```
+vim ./creator/Creator/Conf/OdpConf/Conf.php
+return array(
+    //odp的模板类型
+    'TEMPLATES' => [
+        'dao'           => 'dao.tmpl',
+        'dataservice'   => 'dataservice.tmpl',
+        'pageservice'   => 'pageservice.tmpl',
+    ],
+    //odp文件路径分割
+    'DS' => '_',
+    //dao层相关配置
+    'DAO' => [
+        'BASE_CONFIG'  => [
+            'partion'  => '-p',                                     //默认的分表参数
+        ],
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,                    //生成文件路径
+        'PARENT_CLASS' => 'Hk_Common_BaseDao',                      //默认的父类
+        'DB_NAME'      => 'flipped/zyb_flipped',                    //默认的DB_NAME 
+        'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //默认的DB
+        'LOG_FILE'     => 'Hkzb_Util_FuDao::DBLOG_FUDAO',           //默认的日志文件存储
+        'PARTION_NUM'  => '20',                                     //默认的取模分表分母数
+        'PARTION_TYPE' => 'self::TYPE_TABLE_PARTION_MOD',           //默认的分表类型
+        'TYPES_MAP'    => [
+            'bigint'     => 'Hk_Service_Db::TYPE_INT',
+            'blob'       => 'Hk_Service_Db::TYPE_INT',
+            'char'       => 'Hk_Service_Db::TYPE_STR',
+            'date'       => 'Hk_Service_Db::TYPE_STR',
+            'datetime'   => 'Hk_Service_Db::TYPE_STR',
+            'int'        => 'Hk_Service_Db::TYPE_INT',
+            'longblob'   => 'Hk_Service_Db::TYPE_INT',
+            'mediumblob' => 'Hk_Service_Db::TYPE_INT',
+            'smallint'   => 'Hk_Service_Db::TYPE_INT',
+            'text'       => 'Hk_Service_Db::TYPE_STR',
+            'time'       => 'Hk_Service_Db::TYPE_STR',
+            'timestamp'  => 'Hk_Service_Db::TYPE_STR',
+            'tinyint'    => 'Hk_Service_Db::TYPE_INT',
+            'varchar'    => 'Hk_Service_Db::TYPE_STR',
+        ],
+        'TYPE_JSON'      => 'Hk_Service_Db::TYPE_JSON',
+        'TYPE_JSON_FLAG' => 'json',                                 //默认的JSON类型CLOUMN_COMMENT标识符
+    ],
+    //dataservice层相关配置
+    'DATASERVICE' => [
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'PARENT_CLASS' => '',   //父类
+    ],
+    //pageservice层相关配置
+    'PAGESERVICE' => [
+        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'PARENT_CLASS' => '',   //父类
+    ],
+);
+
+```
+
 
 #### 使用说明
 
