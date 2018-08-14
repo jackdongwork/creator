@@ -57,10 +57,17 @@ class CreateDao extends CreateBase
         $partionType = '';
         $partionNum  = '';
         $firstColumn = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
-        if (in_array($this->_Config['BASE_CONFIG']['partion'],$this->params['base_config'])) {
+        //取模分表
+        if (in_array($this->_Config['BASE_CONFIG']['partion']['MUL'],$this->params['base_config'])) {
             $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
-            $partionType = '$this->_partionType = ' . $this->_Config['PARTION_TYPE'].';';
-            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION_NUM'].';';
+            $partionType = '$this->_partionType = ' . $this->_Config['PARTION']['MUL']['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION']['MUL']['PARTION_NUM'].';';
+        }
+        //固定大小分表
+        if (in_array($this->_Config['BASE_CONFIG']['partion']['MOD'],$this->params['base_config'])) {
+            $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
+            $partionType = '$this->_partionType = ' . $this->_Config['PARTION']['MOD']['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION']['MOD']['PARTION_NUM'].';';
         }
 
         //拼装数组

@@ -17,18 +17,35 @@ return array(
     //dao层相关配置
     'DAO' => [
         'BASE_CONFIG'  => [
-            'partion'  => '-p', //分表
+            //分表
+            'partion'  => [
+                'MUL' => '-pl',//固定大小分表
+                'MOD' => '-pd',//取模分表
+            ],
         ],
-        'DOCUMENT_PATH' => '../',
+        'DOCUMENT_PATH' => './',
         'FILE_NAME_TEMP'=> [
-            'fz' => '',
+            'Fz' => 'phplib',
+//            'fz' => 'phplib',
+//            'Ds' => 'ds',
         ],
         'PARENT_CLASS'  => 'Hk_Common_BaseDao',   //父类
         'DB_NAME'       => 'flipped/zyb_flipped', //DB_NAME
         'DB'            => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
         'LOG_FILE'      => 'Hkzb_Util_FuDao::DBLOG_FUDAO',    //日志文件
-        'PARTION_NUM'   => '20',
-        'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MOD',
+        'PARTION'       => [
+            //取模分表
+            'MOD' => [
+                'PARTION_NUM'   => '20',
+                'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MOD',
+            ],
+            //固定大小分表
+            'MUL' => [
+                'PARTION_NUM'   => '3000',
+                'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MUL',
+            ],
+        ],
+
         'TYPES_MAP'     => [
             'bigint'     => 'Hk_Service_Db::TYPE_INT',
             'blob'       => 'Hk_Service_Db::TYPE_INT',

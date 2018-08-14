@@ -2,18 +2,18 @@
 /**
  * file  : Message.php
  * author: chenzhiwen
- * date  : 2018/08/13
+ * date  : 2018/08/14
  * brief :
  */
-class Fz_Ds_Message extends Hk_Common_BaseDao {
+class Fz_Dao_Message extends Hk_Common_BaseDao {
 	public function __construct() {
 		$this->_dbName      = 'flipped/zyb_flipped';
         $this->_db     	    = Hk_Service_Db::getDB( $this->_dbName );
         $this->_logFile     = Hkzb_Util_FuDao::DBLOG_FUDAO;
         $this->_table  	    = 'tblMessage';
         $this->_partionKey  = 'messageId';
-        $this->_partionNum  = 20;
-        $this->_partionType = self::TYPE_TABLE_PARTION_MOD;
+        $this->_partionNum  = 3000;
+        $this->_partionType = self::TYPE_TABLE_PARTION_MUL;
         $this->arrFieldsMap = array(
                   'messageId'       => 'message_id',
                   'messageType'     => 'message_type',
