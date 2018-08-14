@@ -32,10 +32,14 @@ class FileHelper
      * @param $content
      * @param $path
      * @param $fileName
+     * @param $replace_str
      */
-    public static function writeToFile($content,$path,$fileName)
+    public static function writeToFile($content,$path,$fileName,$replace_str = array())
     {
-        $_file = $path . '/' . $fileName;
+        $search  = key($replace_str);
+        $replace = $replace_str[$search];
+        $path    = str_ireplace($search,$replace,$path);
+        $_file =  $path . '/' . $fileName;
         if ($path !== '') {
             FileHelper::mkdir($path);
             $ret = file_put_contents($_file, $content);

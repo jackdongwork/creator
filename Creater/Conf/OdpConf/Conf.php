@@ -19,14 +19,17 @@ return array(
         'BASE_CONFIG'  => [
             'partion'  => '-p', //分表
         ],
-        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
-        'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
-        'DB_NAME'      => 'flipped/zyb_flipped', //DB_NAME
-        'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
-        'LOG_FILE'     => 'Hkzb_Util_FuDao::DBLOG_FUDAO',    //日志文件
-        'PARTION_NUM'  => '20',
-        'PARTION_TYPE' => 'self::TYPE_TABLE_PARTION_MOD',
-        'TYPES_MAP'    => [
+        'DOCUMENT_PATH' => '../',
+        'FILE_NAME_TEMP'=> [
+            'fz' => '',
+        ],
+        'PARENT_CLASS'  => 'Hk_Common_BaseDao',   //父类
+        'DB_NAME'       => 'flipped/zyb_flipped', //DB_NAME
+        'DB'            => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
+        'LOG_FILE'      => 'Hkzb_Util_FuDao::DBLOG_FUDAO',    //日志文件
+        'PARTION_NUM'   => '20',
+        'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MOD',
+        'TYPES_MAP'     => [
             'bigint'     => 'Hk_Service_Db::TYPE_INT',
             'blob'       => 'Hk_Service_Db::TYPE_INT',
             'char'       => 'Hk_Service_Db::TYPE_STR',
