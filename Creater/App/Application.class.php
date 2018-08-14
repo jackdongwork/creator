@@ -62,10 +62,15 @@ class Application
      */
     static $checkParams = [
         1 => [
-            'create'
+            'create',
+            'build',
         ],
         2 => [
+            'action',
+            'all',
+            'module',
             'dao',
+            'controller',
             'dataservice',
             'pageservice',
             'ds',

@@ -11,6 +11,8 @@ return array(
         'dao'           => 'dao.tmpl',
         'dataservice'   => 'dataservice.tmpl',
         'pageservice'   => 'pageservice.tmpl',
+        'controller'    => 'controller.tmpl',
+        'action'        => 'action.tmpl',
     ],
     //odp文件路径分割
     'DS' => '_',
@@ -75,4 +77,30 @@ return array(
         'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
+    //构建模块
+    'MODULE' => [
+        'DOCUMENT_PATH' => '../'
+    ],
+    //all
+    'ALL' => [
+        'DOCUMENT_PATH' => [
+            'DAO'         => './phplib/dao/',
+            'DATASERVICE' => './phplib/ds/',
+            'PAGESERVICE' => './desktc/models/service/page/',
+        ]
+    ],
+    //controller
+    'CONTROLLER' => [
+        'DOCUMENT_PATH' => './desktc/',
+        'PARENT_CLASS'  => 'Ap_Controller_Abstract',   //父类
+    ],
+    //action
+    'ACTION' => [
+        'DOCUMENT_PATH' => './desktc/',
+        'PARENT_CLASS'  => 'DeskTc_Action_Base',   //父类
+        'BASE_CONFIG'  => [
+            'MIDDLE_NAME' => '-n',
+        ],
+    ],
+
 );
