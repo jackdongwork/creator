@@ -5,7 +5,7 @@
  * Date: 2018/7/12
  * Time: 下午11:40
  */
-namespace Creator\App;
+namespace Creater\App;
 
 
 abstract class CreateBase
@@ -70,7 +70,7 @@ abstract class CreateBase
     {
         $this->note['FILE'] = $this->params['file_name'];
         $this->note['AUTHOR'] = $GLOBALS['config']['NOTE']['AUTHOR'];
-        $this->note['DATE'] = date('Y/m/d');
+        $this->note['DATE'] = date('Y/m/d',time());
     }
 
     /**

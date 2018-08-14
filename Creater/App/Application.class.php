@@ -5,9 +5,9 @@
  * Date: 2017/9/9
  * Time: 11:05
  */
-namespace Creator\App;
+namespace Creater\App;
 
-use Creator\Helper\CommonHelper;
+use Creater\Helper\CommonHelper;
 
 /**
  * 框架初始类
@@ -82,7 +82,10 @@ class Application
         'ps' => 'pageservice',
     ];
 
-
+    /**
+     * 使用table的action
+     * @var array
+     */
     static $useTableAction = [
         'dao',
         'ds',
@@ -114,7 +117,7 @@ class Application
      */
     private static function initConst()
     {
-        define("TMPL_PATH",ROOT_PATH ."Creator".DS."Template".DS.strtolower($GLOBALS['config']['FRAME'] . DS));//模板路径
+        define("TMPL_PATH",ROOT_PATH ."Creater".DS."Template".DS.strtolower($GLOBALS['config']['FRAME'] . DS));//模板路径
     }
 
     /**
@@ -125,14 +128,13 @@ class Application
         spl_autoload_register(function ($className)
         {
             //将空间中的类名,转成真实的类文件路径
-            //空间中的类名 Creator\App\Odp\CreateDao
-            //真是的类文件 Creator\App\Odp\CreateDao.class.php
+            //空间中的类名 Creater\App\Odp\CreateDao
+            //真是的类文件 Creater\App\Odp\CreateDao.class.php
             $filename = ROOT_PATH.str_replace("\\",DS,$className).".class.php";
             //如果类文件存在,则包含
             if (file_exists($filename)) require_once($filename);
         });
     }
-
 
     /**
      * 初始化参数
@@ -173,8 +175,6 @@ class Application
         }
 
     }
-
-
 
     /**
      * 请求分发

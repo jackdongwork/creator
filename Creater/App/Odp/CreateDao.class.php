@@ -5,14 +5,13 @@
  * Date: 2018/7/12
  * Time: 下午11:40
  */
-namespace Creator\App\Odp;
+namespace Creater\App\Odp;
 
-use Creator\App\CreateBase;
-use Creator\App\Creator;
-use Creator\App\TableCreate;
-use Creator\Helper\CommonHelper;
-use Creator\Helper\FileHelper;
-use Creator\Helper\TemplateHelper;
+use Creater\App\CreateBase;
+use Creater\App\TableCreate;
+use Creater\Helper\CommonHelper;
+use Creater\Helper\FileHelper;
+use Creater\Helper\TemplateHelper;
 
 class CreateDao extends CreateBase
 {

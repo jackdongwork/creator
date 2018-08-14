@@ -19,7 +19,7 @@ return array(
         'BASE_CONFIG'  => [
             'partion'  => '-p', //分表
         ],
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => 'Hk_Common_BaseDao',   //父类
         'DB_NAME'      => 'flipped/zyb_flipped', //DB_NAME
         'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
@@ -47,12 +47,12 @@ return array(
     ],
     //dataservice层相关配置
     'DATASERVICE' => [
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
     //pageservice层相关配置
     'PAGESERVICE' => [
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
 );

@@ -5,9 +5,9 @@
  * Date: 2018/7/15
  * Time: 下午4:09
  */
-namespace Creator\App;
+namespace Creater\App;
 
-use Creator\Helper\PDOWrapper;
+use Creater\Helper\PDOWrapper;
 
 trait TableCreate
 {

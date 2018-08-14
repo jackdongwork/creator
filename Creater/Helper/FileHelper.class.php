@@ -1,10 +1,8 @@
 <?php
-namespace Creator\Helper;
-
 /**
  * Class File 与文件相关的助手类
  */
-namespace Creator\Helper;
+namespace Creater\Helper;
 class FileHelper
 {
     /**

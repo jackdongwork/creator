@@ -5,7 +5,7 @@
  * date  : 2018/7/16
  * brief :
  */
-namespace Creator\Helper;
+namespace Creater\Helper;
 class CommonHelper
 {
     /**
