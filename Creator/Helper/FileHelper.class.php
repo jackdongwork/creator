@@ -48,4 +48,28 @@ class FileHelper
             echo empty($ret) ? 'CREATE FAIL !' . PHP_EOL : 'CREATE SUCCESS !' . PHP_EOL;
         }
     }
+
+
+    /**
+     * 扫描某个路径下的所有文件，并拷贝到目标路径下，支持递归
+     * @param $src_path
+     * @param $tar_path
+     */
+    public static function copyFiles($src_path, $tar_path)
+    {
+        FileHelper::mkdir($tar_path);
+
+        $files = scandir($src_path);
+        foreach ($files as $file) {
+            $src_file_name = $src_path . '/' . $file;
+            $tar_file_name = $tar_path . '/' . $file;
+            if (is_file($src_file_name)) {
+                copy($src_file_name, $tar_file_name);
+            }
+
+            if (is_dir($src_file_name) && !preg_match('/\.+$/', $src_file_name)) {
+                FileHelper::copyFiles($src_file_name, $tar_file_name);
+            }
+        }
+    }
 }
