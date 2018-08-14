@@ -1,10 +1,8 @@
 <?php
-namespace Creator\Helper;
-
 /**
  * Class File 与文件相关的助手类
  */
-namespace Creator\Helper;
+namespace Creater\Helper;
 class FileHelper
 {
     /**
@@ -38,9 +36,9 @@ class FileHelper
      */
     public static function writeToFile($content,$path,$fileName,$replace_str = array())
     {
-        $search  = key($replace_str);
-        $replace = $replace_str[$search];
-        $path    = str_ireplace($search,$replace,$path);
+        foreach ($replace_str as $search => $replace) {
+            $path    = str_replace($search,$replace,$path);
+        }
         $_file =  $path . '/' . $fileName;
         if ($path !== '') {
             FileHelper::mkdir($path);

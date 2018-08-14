@@ -5,7 +5,7 @@
  * Date: 2017/9/9
  * Time: 16:08
  */
-namespace Creator\Helper;
+namespace Creater\Helper;
 //声明命名空间
 //namespace Frame\Vendor;
 //引入根空间下的PDO

@@ -5,14 +5,13 @@
  * Date: 2018/7/12
  * Time: 下午11:40
  */
-namespace Creator\App\Odp;
+namespace Creater\App\Odp;
 
-use Creator\App\CreateBase;
-use Creator\App\Creator;
-use Creator\App\TableCreate;
-use Creator\Helper\CommonHelper;
-use Creator\Helper\FileHelper;
-use Creator\Helper\TemplateHelper;
+use Creater\App\CreateBase;
+use Creater\App\TableCreate;
+use Creater\Helper\CommonHelper;
+use Creater\Helper\FileHelper;
+use Creater\Helper\TemplateHelper;
 
 class CreateDao extends CreateBase
 {
@@ -58,10 +57,17 @@ class CreateDao extends CreateBase
         $partionType = '';
         $partionNum  = '';
         $firstColumn = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
-        if (in_array($this->_Config['BASE_CONFIG']['partion'],$this->params['base_config'])) {
+        //取模分表
+        if (in_array($this->_Config['BASE_CONFIG']['partion']['MUL'],$this->params['base_config'])) {
             $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
-            $partionType = '$this->_partionType = ' . $this->_Config['PARTION_TYPE'].';';
-            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION_NUM'].';';
+            $partionType = '$this->_partionType = ' . $this->_Config['PARTION']['MUL']['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION']['MUL']['PARTION_NUM'].';';
+        }
+        //固定大小分表
+        if (in_array($this->_Config['BASE_CONFIG']['partion']['MOD'],$this->params['base_config'])) {
+            $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
+            $partionType = '$this->_partionType = ' . $this->_Config['PARTION']['MOD']['PARTION_TYPE'].';';
+            $partionNum  = '$this->_partionNum  = ' . $this->_Config['PARTION']['MOD']['PARTION_NUM'].';';
         }
 
         //拼装数组

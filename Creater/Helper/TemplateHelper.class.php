@@ -5,7 +5,7 @@
  * Date: 2018/7/11
  * Time: 下午10:40
  */
-namespace Creator\Helper;
+namespace Creater\Helper;
 class TemplateHelper
 {
     /**
