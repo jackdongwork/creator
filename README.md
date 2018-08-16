@@ -59,22 +59,31 @@ return array(
         'dao'           => 'dao.tmpl',
         'dataservice'   => 'dataservice.tmpl',
         'pageservice'   => 'pageservice.tmpl',
+        'controller'    => 'controller.tmpl',
+        'action'        => 'action.tmpl',
+    ],
+    'DB' => [
+        'PREFIX' => 'tbl',
     ],
     //odp文件路径分割
     'DS' => '_',
     //dao层相关配置
     'DAO' => [
         'BASE_CONFIG'  => [
-            'partion'  => '-p',                                     //默认的分表参数
+            //分表
+            'partion'  => [
+                'MUL' => '-pl',//固定大小分表
+                'MOD' => '-pd',//取模分表
+            ],
         ],
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,                    //生成文件路径
-        'PARENT_CLASS' => 'Hk_Common_BaseDao',                      //默认的父类
-        'DB_NAME'      => 'flipped/zyb_flipped',                    //默认的DB_NAME 
-        'DB'           => 'Hk_Service_Db::getDB( $this->_dbName )', //默认的DB
-        'LOG_FILE'     => 'Hkzb_Util_FuDao::DBLOG_FUDAO',           //默认的日志文件存储
-        'PARTION_NUM'  => '20',                                     //默认的取模分表分母数
-        'PARTION_TYPE' => 'self::TYPE_TABLE_PARTION_MOD',           //默认的分表类型
-        'TYPES_MAP'    => [
+        'DOCUMENT_PATH' => '../desktc/models/',                      //基础路径
+        'PARENT_CLASS'  => 'Hk_Common_BaseDao',                      //父类
+        'DB_NAME'       => 'flipped/zyb_flipped',                    //DB_NAME
+        'DB'            => 'Hk_Service_Db::getDB( $this->_dbName )', //DB
+        'LOG_FILE'      => 'Hkzb_Util_FuDao::DBLOG_FUDAO',           //日志文件
+        'TYPE_JSON'      => 'Hk_Service_Db::TYPE_JSON',              //JSON
+        'TYPE_JSON_FLAG' => 'json',                                  //JSON标示符
+        'TYPES_MAP'     => [
             'bigint'     => 'Hk_Service_Db::TYPE_INT',
             'blob'       => 'Hk_Service_Db::TYPE_INT',
             'char'       => 'Hk_Service_Db::TYPE_STR',
@@ -90,19 +99,63 @@ return array(
             'tinyint'    => 'Hk_Service_Db::TYPE_INT',
             'varchar'    => 'Hk_Service_Db::TYPE_STR',
         ],
-        'TYPE_JSON'      => 'Hk_Service_Db::TYPE_JSON',
-        'TYPE_JSON_FLAG' => 'json',                                 //默认的JSON类型CLOUMN_COMMENT标识符
+        'FILE_NAME_TEMP'=> [
+            'Fz' => 'phplib',
+        ],
+        'PARTION'        => [
+            //取模分表
+            'MOD' => [
+                'PARTION_NUM'   => '20',
+                'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MOD',
+            ],
+            //固定大小分表
+            'MUL' => [
+                'PARTION_NUM'   => '3000',
+                'PARTION_TYPE'  => 'self::TYPE_TABLE_PARTION_MUL',
+            ],
+        ],
     ],
     //dataservice层相关配置
     'DATASERVICE' => [
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
     //pageservice层相关配置
     'PAGESERVICE' => [
-        'DOCUMENT_PATH'=> ROOT_PATH . 'Fz' . DS,
+        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
+    //构建模块
+    'MODULE' => [
+        'DOCUMENT_PATH' => '../',
+        'BASE_CONFIG'   => [
+            'NAMESPACE' => '-c'
+        ],
+    ],
+    //all
+    'ALL' => [
+        'DOCUMENT_PATH' => [
+            'ACTION'      => '../desktc/',
+            'CONTROLLER'  => '../desktc/',
+            'DAO'         => '../desktc/models/dao/',       //../phplib/dao/
+            'DATASERVICE' => '../desktc/models/service/data/',  //../phplib/ds/
+            'PAGESERVICE' => '../desktc/models/service/page/',
+        ]
+    ],
+    //controller
+    'CONTROLLER' => [
+        'DOCUMENT_PATH' => '../desktc/',
+        'PARENT_CLASS'  => 'Ap_Controller_Abstract',   //父类
+    ],
+    //action
+    'ACTION' => [
+        'DOCUMENT_PATH' => '../desktc/',
+        'PARENT_CLASS'  => 'DeskTc_Action_Base',   //父类
+        'BASE_CONFIG'  => [
+            'MIDDLE_NAME' => '-n',
+        ],
+    ],
+
 );
 
 ```
