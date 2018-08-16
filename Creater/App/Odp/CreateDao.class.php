@@ -92,6 +92,7 @@ class CreateDao extends CreateBase
         //填充模板
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
         FileHelper::writeToFile($this->content,$this->params['path'],$this->params['file_name'],$this->_Config['FILE_NAME_TEMP']);
+        echo 'CREATE SUCCESS !' . PHP_EOL;
     }
 
 }

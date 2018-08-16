@@ -42,6 +42,7 @@ class CreateController extends CreateBase
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
         $path = str_ireplace('Controller','controllers',$this->params['path']);
         FileHelper::writeToFile($this->content,$path,$this->params['file_name']);
+        echo 'CREATE SUCCESS !' . PHP_EOL;
     }
 
 }

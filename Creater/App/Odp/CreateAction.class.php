@@ -38,17 +38,14 @@ class CreateAction extends CreateBase
 
         $map = array_merge($map,$this->note);
 
-
-
-
-
-
         //获取模板
         $tmpl = TemplateHelper::fetchTemplate('action');
         //填充模板
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
         $path = str_ireplace('action','actions',$this->params['path']);
         FileHelper::writeToFile($this->content,$path,$this->params['file_name']);
+
+        echo 'CREATE SUCCESS !' . PHP_EOL;
     }
 
 }

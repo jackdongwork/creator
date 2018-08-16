@@ -42,8 +42,7 @@ class FileHelper
         $_file =  $path . '/' . $fileName;
         if ($path !== '') {
             FileHelper::mkdir($path);
-            $ret = file_put_contents($_file, $content);
-            echo empty($ret) ? 'CREATE FAIL !' . PHP_EOL : 'CREATE SUCCESS !' . PHP_EOL;
+            file_put_contents($_file, $content);
         }
     }
 

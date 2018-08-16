@@ -51,6 +51,7 @@ class CreateDataService extends CreateBase
         $this->content = TemplateHelper::parseTemplateTags($map,$tmpl);
         FileHelper::writeToFile($this->content,$this->params['path'],$this->params['file_name']);
 
+        echo 'CREATE SUCCESS !' . PHP_EOL;
     }
 
 }

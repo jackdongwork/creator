@@ -162,7 +162,11 @@ class Application
         self::$_config  = array_slice($argv,4);
 
         //配置名称
-        $configName     = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])][strtoupper(self::$_action)]['DOCUMENT_PATH'] . self::$_name;
+        if (strtolower(self::$_action) != 'all') {
+            $configName     = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])][strtoupper(self::$_action)]['DOCUMENT_PATH'] . self::$_name;
+        }else{
+            $configName = '';
+        }
 
         //初始化参数
         self::$params['base_name']   = CommonHelper::convertUnderline(self::$_name,true,true);
@@ -176,7 +180,7 @@ class Application
 
         //用到数据库的
         if (in_array(self::$_action,self::$useTableAction)) {
-            self::$params['db_name'] = 'tbl' . ucfirst($name);
+            self::$params['db_name'] = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])]['DB']['PREFIX'] . ucfirst($name);
         }
 
     }

@@ -14,6 +14,9 @@ return array(
         'controller'    => 'controller.tmpl',
         'action'        => 'action.tmpl',
     ],
+    'DB' => [
+        'PREFIX' => 'tbl',
+    ],
     //odp文件路径分割
     'DS' => '_',
     //dao层相关配置
@@ -25,7 +28,7 @@ return array(
                 'MOD' => '-pd',//取模分表
             ],
         ],
-        'DOCUMENT_PATH' => './',
+        'DOCUMENT_PATH' => '../desktc/models/',
         'FILE_NAME_TEMP'=> [
             'Fz' => 'phplib',
 //            'fz' => 'phplib',
@@ -69,34 +72,39 @@ return array(
     ],
     //dataservice层相关配置
     'DATASERVICE' => [
-        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
+        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
     //pageservice层相关配置
     'PAGESERVICE' => [
-        'DOCUMENT_PATH'=> '',//ROOT_PATH . 'Fz' . DS
+        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
     //构建模块
     'MODULE' => [
-        'DOCUMENT_PATH' => '../'
+        'DOCUMENT_PATH' => '../',
+        'BASE_CONFIG'   => [
+            'NAMESPACE' => '-c'
+        ],
     ],
     //all
     'ALL' => [
         'DOCUMENT_PATH' => [
-            'DAO'         => './phplib/dao/',
-            'DATASERVICE' => './phplib/ds/',
-            'PAGESERVICE' => './desktc/models/service/page/',
+            'ACTION'      => '../desktc/',
+            'CONTROLLER'  => '../desktc/',
+            'DAO'         => '../desktc/models/dao/',       //../phplib/dao/
+            'DATASERVICE' => '../desktc/models/service/data/',  //../phplib/ds/
+            'PAGESERVICE' => '../desktc/models/service/page/',
         ]
     ],
     //controller
     'CONTROLLER' => [
-        'DOCUMENT_PATH' => './desktc/',
+        'DOCUMENT_PATH' => '../desktc/',
         'PARENT_CLASS'  => 'Ap_Controller_Abstract',   //父类
     ],
     //action
     'ACTION' => [
-        'DOCUMENT_PATH' => './desktc/',
+        'DOCUMENT_PATH' => '../desktc/',
         'PARENT_CLASS'  => 'DeskTc_Action_Base',   //父类
         'BASE_CONFIG'  => [
             'MIDDLE_NAME' => '-n',
