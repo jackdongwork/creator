@@ -25,11 +25,10 @@ return array(
             //分表
             'PARTION'  => '-p',
         ],
-        'DOCUMENT_PATH' => '../desktc/models/', //../
+        'DOCUMENT_PATH' => '../', //../desktc/models/
         'FILE_NAME_TEMP'=> [
             'Fz' => 'phplib',
             'fz' => 'phplib',
-//            'Ds' => 'ds',
         ],
         'PARENT_CLASS'  => 'Hk_Common_BaseDao',   //父类
         'DB_NAME'       => 'flipped/zyb_flipped', //DB_NAME
@@ -69,8 +68,12 @@ return array(
     ],
     //dataservice层相关配置
     'DATASERVICE' => [
-        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
+        'DOCUMENT_PATH'=> '../',//ROOT_PATH . 'Fz' . DS //../desktc/models/
         'PARENT_CLASS' => '',   //父类
+        'FILE_NAME_TEMP'=> [
+            'Fz' => 'phplib',
+            'fz' => 'phplib',
+        ],
     ],
     //pageservice层相关配置
     'PAGESERVICE' => [
