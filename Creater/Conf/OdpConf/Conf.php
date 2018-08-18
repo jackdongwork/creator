@@ -23,15 +23,12 @@ return array(
     'DAO' => [
         'BASE_CONFIG'  => [
             //分表
-            'partion'  => [
-                'MUL' => '-pl',//固定大小分表
-                'MOD' => '-pd',//取模分表
-            ],
+            'PARTION'  => '-p',
         ],
-        'DOCUMENT_PATH' => '../desktc/models/',
+        'DOCUMENT_PATH' => '../desktc/models/', //../
         'FILE_NAME_TEMP'=> [
             'Fz' => 'phplib',
-//            'fz' => 'phplib',
+            'fz' => 'phplib',
 //            'Ds' => 'ds',
         ],
         'PARENT_CLASS'  => 'Hk_Common_BaseDao',   //父类
@@ -81,7 +78,7 @@ return array(
         'PARENT_CLASS' => '',   //父类
     ],
     //构建模块
-    'MODULE' => [
+    'APP' => [
         'DOCUMENT_PATH' => '../',
         'BASE_CONFIG'   => [
             'NAMESPACE' => '-c'

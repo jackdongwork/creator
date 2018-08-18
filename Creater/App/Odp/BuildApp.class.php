@@ -9,7 +9,7 @@ namespace Creater\App\Odp;
 
 use Creater\Helper\FileHelper;
 
-class BuildModule
+class BuildApp
 {
     private $_Config;
     private $params;
@@ -17,7 +17,7 @@ class BuildModule
     public function __construct($params)
     {
         $this->params  = $params;
-        $this->_Config = $GLOBALS['config']['ODP']['MODULE'];
+        $this->_Config = $GLOBALS['config']['ODP']['APP'];
     }
 
     /**
@@ -38,6 +38,7 @@ class BuildModule
             $namespace = $this->params['base_config'][$key];
         }else{
             echo 'PARAMS ERROR !';
+            exit;
         }
 
         $map = [

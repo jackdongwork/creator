@@ -66,9 +66,9 @@ class Application
             'build',
         ],
         2 => [
+            'app',
             'action',
             'all',
-            'module',
             'dao',
             'controller',
             'dataservice',
@@ -175,7 +175,7 @@ class Application
         $DS = $GLOBALS['config']['ODP']['DS'];
         $name = !strrchr(self::$_name, $DS) ? self::$_name : trim(strrchr(self::$_name, $DS),$DS);
 
-        self::$params['path'] = !strrpos($configName, $DS) ? $configName : str_replace($DS, DS,substr($configName,0,strrpos($configName, $DS)));
+        self::$params['path'] = !strrpos($configName, $DS) ? $configName : strtolower(str_replace($DS, DS,substr($configName,0,strrpos($configName, $DS))));
         self::$params['file_name'] =  ucfirst($name) . '.php';
 
         //用到数据库的
