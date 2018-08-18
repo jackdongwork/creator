@@ -1,12 +1,48 @@
 # creator
 
 #### 项目介绍
-creator是一款为百度内部php框架odp的脚手架工具，主要用于生成dao层，dataService层，pageService层（其他功能待完善），避免重复性劳动和提高工作效率
+creator是一款为php框架odp的脚手架工具，主要用于生成dao层，dataService层，pageService层,controller层,action层,避免重复性劳动和提高工作效率
 
 #### 软件架构
 软件架构说明
 
+#### 使用说明 
+###### (ps:配置已支持当前项目组文件路径,放置在app同级目录即可)
 
+1.创建app
+> ` php creator build app app_name –c namespace`   
+
+> 栗 : `php creator create action Action_MessageList -n message`  
+
+2.创建dao
+> `php creator create dao dao_name -p [mod | mul]  `
+
+> 栗 : `php creator create action Action_MessageList -n message`  
+
+3.创建dataservice
+> `php creator create ds dataservice`  
+
+> 栗 : `php creator create ds Service_Data_Message`  
+
+4.创建pageservice
+> `php creator create ps pageservice`  
+
+> 栗 :`php creator create ps Service_Page_Message`  
+
+5.创建controller
+> `php creator create controller c_name`  
+
+> 栗 : `php creator create controller Controller_Message`  
+
+6.创建action
+> `php creator create action a_name -n  middle_name`   
+
+> 栗 : `php creator create action Action_MessageList -n message`  
+
+7.创建所有
+> `php creator create all name`   
+
+> 栗 : `php creator create all Message`  
 #### 安装教程
 
 1. 将creator文件夹放置于odp项目的根目录下
@@ -159,13 +195,6 @@ return array(
 );
 
 ```
-
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
 
 #### 参与贡献
 
