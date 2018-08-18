@@ -39,7 +39,10 @@ creator是一款为php框架odp的脚手架工具，主要用于生成dao层，d
 
 > 栗 : `php creator create action Action_MessageList -n message`  
 
+7.创建所有
+> `php creator create all name`   
 
+> 栗 : `php creator create all Message`  
 #### 安装教程
 
 1. 将creator文件夹放置于odp项目的根目录下
