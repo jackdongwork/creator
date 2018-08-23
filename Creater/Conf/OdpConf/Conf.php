@@ -118,7 +118,7 @@ return array(
             'USER_NAME' => '-u',
             'PWD'       => '-p',
             'AUTHOR'    => '-a',
-            'APP'       => '-d',
+            'APP'       => '-t',
         ],
     ],
 );
