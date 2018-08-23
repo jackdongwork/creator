@@ -1,8 +1,8 @@
 <?php
 /**
- * file  : Conf.php
- * author: chenzhiwen@zuoyebang.com
- * date  : 2018/08/22
+ * file  : {{FILE}}
+ * author: {{AUTHOR}}
+ * date  : {{DATE}}
  * brief : ODP配置文件
  */
 
@@ -14,8 +14,8 @@ $conf = array(
         'DB_TYPE'    => 'mysql',           //数据库类型
         'DB_HOST'    => '127.0.0.1',       //服务器地址
         'DB_PORT'    => '3306',            //端口
-        'DB_USER'    => 'edwinchan',   //用户名
-        'DB_PWD'     => '1234567',         //密码
+        'DB_USER'    => '{{USER_NAME}}',   //用户名
+        'DB_PWD'     => '{{PWD}}',         //密码
         'DB_NAME'    => DB_NAME,           //数据库名称
         'DB_CHARSET' => 'utf8',            //数据库编码
     ],
@@ -25,7 +25,7 @@ $conf = array(
 
     //文件注释
     'NOTE' => [
-        'AUTHOR' => 'chenzhiwen@zuoyebang.com',
+        'AUTHOR' => '{{AUTHOR}}',
     ],
 );
 
@@ -34,7 +34,7 @@ $conf = array(
 switch (FRAME)
 {
     case 'ODP' :
-        $APP = 'misfz';
+        $APP = '{{APP}}';
         $conf['ODP'] = require_once(CONF_PATH."OdpConf".DS."Conf.php");
         return $conf;
     break;

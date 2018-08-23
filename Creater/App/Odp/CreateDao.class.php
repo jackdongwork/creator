@@ -37,7 +37,9 @@ class CreateDao extends CreateBase
         //生成字段 & 字段类型
         $fieldsMap  = array();
         $typesMap   = array();
+        $fields     = array();
         foreach ($columnList as $column) {
+            $fields[] = CommonHelper::convertUnderline($column['COLUMN_NAME'],false);
             $fieldsMap[] = [
                 CommonHelper::convertUnderline($column['COLUMN_NAME'],false) => $column['COLUMN_NAME'] ,
             ];
@@ -59,12 +61,30 @@ class CreateDao extends CreateBase
         $firstColumn = CommonHelper::convertUnderline($columnList[0]['COLUMN_NAME'],false);
         //取模分表 || 固定大小分表
         $partion = $this->_Config['BASE_CONFIG']['PARTION'];
+        $numParam = $this->_Config['BASE_CONFIG']['PARTION_NUM'];
+        $keyParam = $this->_Config['BASE_CONFIG']['PARTION_KEY'];
         if (in_array($partion,$this->params['base_config'])) {
             $key = array_search($partion,$this->params['base_config']) + 1;
             $par = strtoupper($this->params['base_config'][$key]);
             if (!isset($this->_Config['PARTION'][$par])) {
                 echo 'PARAM ERROR!';
                 exit;
+            }
+
+            if (in_array($keyParam,$this->params['base_config'])) {
+                $key = array_search($keyParam, $this->params['base_config']) + 1;
+                $key = $this->params['base_config'][$key];
+                if (!in_array($key,$fields)) {
+                    echo 'PARAM ERROR!';
+                    exit;
+                }
+                $firstColumn = $key;
+            }
+
+            if (in_array($numParam,$this->params['base_config'])) {
+                $key = array_search($numParam, $this->params['base_config']) + 1;
+                $num = intval($this->params['base_config'][$key]);
+                $this->_Config['PARTION'][$par]['PARTION_NUM'] = $num;
             }
             $partionKey  = '$this->_partionKey  = ' . "'{$firstColumn}';";
             $partionType = '$this->_partionType = ' . $this->_Config['PARTION'][$par]['PARTION_TYPE'].';';

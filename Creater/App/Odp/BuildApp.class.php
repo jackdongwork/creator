@@ -32,10 +32,12 @@ class BuildApp
         $tarPath = $this->_Config['DOCUMENT_PATH'] . DS . $baseName;
         FileHelper::copyFiles($srcPath,$tarPath);
 
-        $namespace = '';
-        if (in_array($this->_Config['BASE_CONFIG']['NAMESPACE'],$this->params['base_config'])) {
-            $key = array_search($this->_Config['BASE_CONFIG']['NAMESPACE'],$this->params['base_config']) + 1;
-            $namespace = $this->params['base_config'][$key];
+        $baseConfig = $this->params['base_config'];
+        $namespaceParam = $this->_Config['BASE_CONFIG']['NAMESPACE'];
+
+        if (in_array($namespaceParam,$baseConfig)) {
+            $key = array_search($namespaceParam,$baseConfig) + 1;
+            $namespace = $baseConfig[$key];
         }else{
             echo 'PARAMS ERROR !';
             exit;

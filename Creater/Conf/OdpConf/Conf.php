@@ -13,6 +13,7 @@ return array(
         'pageservice'   => 'pageservice.tmpl',
         'controller'    => 'controller.tmpl',
         'action'        => 'action.tmpl',
+        'conf'          => 'conf.tmpl',
     ],
     'DB' => [
         'PREFIX' => 'tbl',
@@ -23,7 +24,9 @@ return array(
     'DAO' => [
         'BASE_CONFIG'  => [
             //分表
-            'PARTION'  => '-p',
+            'PARTION'     => '-p',
+            'PARTION_NUM' => '-n',
+            'PARTION_KEY' => '-k',
         ],
         'DOCUMENT_PATH' => '../', //../desktc/models/
         'FILE_NAME_TEMP'=> [
@@ -77,7 +80,7 @@ return array(
     ],
     //pageservice层相关配置
     'PAGESERVICE' => [
-        'DOCUMENT_PATH'=> '../desktc/models/',//ROOT_PATH . 'Fz' . DS
+        'DOCUMENT_PATH'=> '../' . $APP . '/models/',//ROOT_PATH . 'Fz' . DS
         'PARENT_CLASS' => '',   //父类
     ],
     //构建模块
@@ -90,25 +93,32 @@ return array(
     //all
     'ALL' => [
         'DOCUMENT_PATH' => [
-            'ACTION'      => '../desktc/',
-            'CONTROLLER'  => '../desktc/',
-            'DAO'         => '../desktc/models/dao/',       //../phplib/dao/
-            'DATASERVICE' => '../desktc/models/service/data/',  //../phplib/ds/
-            'PAGESERVICE' => '../desktc/models/service/page/',
+            'ACTION'      => '../' . $APP . '/',
+            'CONTROLLER'  => '../' . $APP . '/',
+            'DAO'         => '../' . $APP . '/models/dao/',       //../phplib/dao/
+            'DATASERVICE' => '../' . $APP . '/models/service/data/',  //../phplib/ds/
+            'PAGESERVICE' => '../' . $APP . '/models/service/page/',
         ]
     ],
     //controller
     'CONTROLLER' => [
-        'DOCUMENT_PATH' => '../desktc/',
+        'DOCUMENT_PATH' => '../' . $APP . '/',
         'PARENT_CLASS'  => 'Ap_Controller_Abstract',   //父类
     ],
     //action
     'ACTION' => [
-        'DOCUMENT_PATH' => '../desktc/',
+        'DOCUMENT_PATH' => '../' . $APP . '/',
         'PARENT_CLASS'  => 'DeskTc_Action_Base',   //父类
-        'BASE_CONFIG'  => [
+        'BASE_CONFIG'   => [
             'MIDDLE_NAME' => '-n',
         ],
     ],
-
+    'CONF' => [
+        'BASE_CONFIG'  => [
+            'USER_NAME' => '-u',
+            'PWD'       => '-p',
+            'AUTHOR'    => '-a',
+            'APP'       => '-d',
+        ],
+    ],
 );

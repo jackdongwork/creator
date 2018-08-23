@@ -27,8 +27,6 @@ class CreateController extends CreateBase
     public function create()
     {
         //拼装数组
-//        $baseName  = ucfirst($this->params['base_name']);
-//        $className = $this->_Config['CLASS_NAME_FILL'] ? 'Controller_' . $baseName : $baseName;
         $map = [
             'CLASS_NAME'   => $this->params['base_name'],
             'PARENT_CLASS' => !empty($this->_Config['PARENT_CLASS']) ? 'extends ' . $this->_Config['PARENT_CLASS'] : '',

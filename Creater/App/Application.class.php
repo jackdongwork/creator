@@ -75,6 +75,7 @@ class Application
             'pageservice',
             'ds',
             'ps',
+            'conf',
         ],
     ];
 
@@ -159,18 +160,23 @@ class Application
         self::$_make    = $argv[1]; //create
         self::$_action  = $argv[2];
         self::$_name    = $argv[3];
-        self::$_config  = array_slice($argv,4);
+        $num = self::$_action == 'conf' ? 3 : 4;
+        self::$_config  = array_slice($argv,$num);
 
         //配置名称
-        if (strtolower(self::$_action) != 'all') {
+        $arr = array(
+            'all',
+            'conf',
+        );
+        if (!in_array(strtolower(self::$_action),$arr)) {
             $configName     = $GLOBALS['config'][strtoupper($GLOBALS['config']['FRAME'])][strtoupper(self::$_action)]['DOCUMENT_PATH'] . self::$_name;
         }else{
             $configName = '';
         }
-
         //初始化参数
         self::$params['base_name']   = CommonHelper::convertUnderline(self::$_name,true,true);
         self::$params['base_config'] = self::$_config;
+
 
         $DS = $GLOBALS['config']['ODP']['DS'];
         $name = !strrchr(self::$_name, $DS) ? self::$_name : trim(strrchr(self::$_name, $DS),$DS);
